@@ -1,0 +1,41 @@
+{% extends 'adminlte/base.html' %}
+{% block title %}{{ build_page_title }}{% endblock %} 
+{% block page_name %}
+        Groups
+{% endblock %}
+{% block breadcrumbs %}
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-users"></i> Alfresco</a></li>
+        <li class="active">Groups</li>
+      </ol>
+{% endblock breadcrumbs %}
+
+{% block content %}
+{% load render_table from django_tables2 %}
+  
+    {% if groups %}
+    <table class="table table-bordered table-striped" id="groups">
+      <tr>
+        <th>Id</th>
+        <th>Display Name</th>
+        <th>Is Root</th>
+      </tr>
+      {% for group in groups %}
+      <tr>
+        <td>{{ group.entry.id }}</td>
+        <td>{{ group.entry.displayName }}</td>
+        <td>{{ group.entry.isRoot }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+      <strong>There are no group.</strong>
+    {% endif %}
+
+{% endblock %}
+
+<script>
+$(document).ready(function(){
+    $('#groups').DataTable();
+});
+</script>

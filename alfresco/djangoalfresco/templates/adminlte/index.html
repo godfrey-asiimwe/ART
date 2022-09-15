@@ -1,0 +1,253 @@
+{% extends 'adminlte/base.html' %}
+{% load adminlte_helpers i18n %}
+{% block title %}{{ build_page_title }}{% endblock %}
+{% block page_name %}
+        Dashboard
+        <small>Version 0.1</small>
+{% endblock %}
+{% block breadcrumbs %}
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Alfresco</a></li>
+        <li class="active">Dashboard</li>
+      </ol>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+      <!-- Info boxes -->
+      <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="ion ion-ios-briefcase-outline"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Sites</span>
+              <span class="info-box-number">{{ count_sites }}</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="ion ion-ios-pricetag-outline"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Tags</span>
+              <span class="info-box-number">{{ count_tags }}</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <!-- fix for small devices only -->
+        <div class="clearfix visible-sm-block"></div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="ion ion-ios-person-outline"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">People</span>
+              <span class="info-box-number">{{ count_people }}</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Groups</span>
+              <span class="info-box-number">{{ count_groups }}</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+     <!-- Main row -->
+      <div class="row">
+        <!-- Left col -->
+        <div class="col-md-8">
+          <!-- TABLE: LATEST ORDERS -->
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Latest Documents</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="table-responsive">
+                <table class="table no-margin">
+                  <thead>
+                  <tr>
+			        <th>Name</th>
+			        <th>Author</th>
+			        <th>Type</th>
+			        <th>Size(Bytes)</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+					{% if result_list %}
+						{% for result in result_list %}
+					      <tr>
+					      {% if result.isFile == True %}
+					      <td><a href="/viewer/{{ result.id }}">{{ result.name }}</a></td>
+					      {% else %}
+					      <td>{{ result.name }}</td>
+					      {% endif %}
+					        <td>{{ result.author }}</td>
+					        <td>{{ result.mimeTypeName }}</td>
+					        <td>{{ result.sizeInBytes }}</td>
+		                  </tr>
+						{% endfor %}
+					{% endif %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.table-responsive -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+              <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Add New Document</a>
+              <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Documents</a>
+            </div>
+            <!-- /.box-footer -->
+          </div>
+        </div>
+        <!-- /.col -->
+
+        <div class="col-md-4">
+          <!-- Info Boxes Style 2 -->
+          <div class="info-box bg-aqua">
+            <span class="info-box-icon"><i class="ion ion-ios-briefcase-outline"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Sites</span>
+              <span class="info-box-number">{{ count_sites }}</span>
+
+              <div class="progress">
+                <div class="progress-bar" style="width: {{ percent_sites }}%"></div>
+              </div>
+              <span class="progress-description">
+                    {{ count_sites }} / 100
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+          <div class="info-box bg-red">
+            <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Tags</span>
+              <span class="info-box-number">{{ count_tags }}</span>
+
+              <div class="progress">
+                <div class="progress-bar" style="width: {{ percent_tags }}%"></div>
+              </div>
+              <span class="progress-description">
+                    {{ count_tags }} / 100
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+          <div class="info-box bg-green">
+            <span class="info-box-icon"><i class="ion ion-ios-person-outline"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">People</span>
+              <span class="info-box-number">{{ count_people }}</span>
+
+              <div class="progress">
+                <div class="progress-bar" style="width: {{ percent_people }}%"></div>
+              </div>
+              <span class="progress-description">
+                    {{ count_people }} / 100
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+          <div class="info-box bg-yellow">
+            <span class="info-box-icon"><i class="ion ion-ios-people-outline"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Groups</span>
+              <span class="info-box-number">{{ count_groups }}</span>
+
+              <div class="progress">
+                <div class="progress-bar" style="width: {{ percent_groups }}%"></div>
+              </div>
+              <span class="progress-description">
+                    {{ count_groups }} / 100
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+
+
+
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+      <div class="row">
+      	<div class="col-md-8">
+			<div class="box">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Latest Members</h3>
+
+                  <div class="box-tools pull-right">
+
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body no-padding">
+                  <ul class="users-list clearfix">
+				    {% if peoples %}
+				      {% for people in peoples %}
+	                    <li>
+	                      <img src="{% avatar_url user=people.entry.id size=80 %}" width="80" alt="User Image">
+	                      <a class="users-list-name" href="#">{{ people.entry.firstName }} {{ people.entry.lastName }}</a>
+	                      <span class="users-list-date">{{ people.entry.email }}</span>
+	                    </li>
+				      {% endfor %}
+				    </table>
+				    {% endif %}
+
+                  </ul>
+                  <!-- /.users-list -->
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer text-center">
+                  <a href="javascript:void(0)" class="uppercase">View All Users</a>
+                </div>
+                <!-- /.box-footer -->
+              </div>
+            </div>
+         </div>
+{% endblock %}

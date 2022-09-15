@@ -1,0 +1,27 @@
+{% load static %}
+
+{% block scripts %}
+<script src="{% static "jquery/dist/jquery.min.js" %}"></script>
+<script src="{% static "jquery/dist/jquery-ui.min.js" %}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button);
+</script>
+<script src="{% static "bootstrap/dist/js/bootstrap.min.js" %} "></script>
+<script src="{% static "admin-lte/dist/js/app.min.js" %}"></script>
+
+<script src="{% static "datatables/js/datatables.min.js" %}"></script> 
+<script src="{% static "jfu/js/vendor/jquery.ui.widget.js" %}"></script>
+<script src="{% static "jfu/js/jquery.iframe-transport.js" %}"></script>
+<script src="{% static "jfu/js/jquery.fileupload.js" %}"></script>
+
+<script src="{% static "documents/js/basic-upload.js" %}"></script>
+
+<!-- Material Design -->
+<script src="{% static "material/js/material.min.js" %}"></script>
+<script src="{% static "material/js/ripples.min.js" %}"></script>
+<script>
+    $.material.init();
+</script>
+{% endblock %}
+

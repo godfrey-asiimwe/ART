@@ -1,0 +1,56 @@
+{% extends 'adminlte/base.html' %}
+{% block title %}{{ build_page_title }}{% endblock %} 
+{% block page_name %}
+        Search
+{% endblock %}
+{% block breadcrumbs %}
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-search"></i> Alfresco</a></li>
+        <li class="active">Search</li>
+      </ol>
+{% endblock breadcrumbs %}
+
+{% block content %}
+   
+	<form class="form-group" id="search_form" method="post" action="/search">
+	{% csrf_token %}
+	<input class="form-control" type="text" name="query" id="query" value="" placeholder="Search..."/>
+	<input class="btn btn-primary btn-block" type="submit" name="submit" value="Search"/>
+	</form>
+	
+	{% if result_list %}
+    <table class="table table-bordered table-striped" id="sites">
+      <tr>
+      	<th></th>
+        <th>Name</th>
+        <th>Author</th>
+        <th>Type</th>
+        <th>Size(Bytes)</th>
+      </tr>
+        {% load mimetypes %}
+		{% for result in result_list %}
+	      <tr>
+	      
+	      {% if result.isFile == True %}
+	      <td><img src="{% icon result.mimeType "32x32" %}"/></td>
+	      <td><a href="/viewer/{{ result.id }}">{{ result.name }}</a></td>
+	      {% else %}
+	      <td><img src="{% icon "folder" "32x32" %}"/></td>
+	      <td>{{ result.name }}</td> 
+	      {% endif %}
+
+	        <td>{{ result.author }}</td>
+	        <td>{{ result.mimeTypeName }}</td>
+	        <td>{{ result.sizeInBytes }}</td>
+	      </tr>		
+		{% endfor %}
+	</table>
+    {% else %}
+      <strong>There are no results.</strong>
+    {% endif %}
+
+{% endblock %}
+
+<script>
+
+</script>
