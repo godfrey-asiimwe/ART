@@ -11,8 +11,8 @@ from django.conf import settings
 from django.contrib.auth.backends import RemoteUserBackend
 from django.contrib.auth import get_user_model
 from requests.auth import HTTPBasicAuth
-from alfresco.authentication import post_ticket
-from alfresco.people import get_people
+from .authentication import post_ticket
+from .people import get_people
 
 logger = logging.getLogger('django.auth.backends')
 

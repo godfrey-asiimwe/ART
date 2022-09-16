@@ -1,20 +1,21 @@
-import requests
-import json
 import base64
+import json
 import mimetypes
 
-from django.shortcuts import render
-from django.conf import settings
-from django.http import HttpResponse, JsonResponse
-from alfresco.search import run_query, run_query_cmis
-from alfresco.content import get_content, get_content_informations, get_content_mimetype, post_node_children, \
+import requests
+from hashlib import md5
+
+from .content import get_content, get_content_informations, get_content_mimetype, post_node_children, \
   put_content_node
-from alfresco.count import count_sites, count_tags, count_people, count_groups
-from alfresco.utils import percentage, clear_database, check_token
-from alfresco.authentication import get_ticket
-from alfresco.people import get_peoples, get_people_id, get_people_avatar, get_people_activities
+from .count import count_sites, count_tags, count_people, count_groups
+from .people import get_peoples, get_people_id, get_people_avatar, get_people_activities
+from .search import run_query, run_query_cmis
+from .utils import percentage, clear_database, check_token
+from django.conf import settings
 from django.contrib.auth import logout
+from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.views import View
 
 from .compat import is_authenticated
@@ -247,8 +248,7 @@ def avatar(request, userId):
     return response
   else:
     return 'https://www.gravatar.com/avatar/{hash}?s={size}&d=mm'.format(
-      hash=md5(user.email.encode('utf-8')).hexdigest() if is_authenticated(user) else '',
-      size=size or '',
+      hash=md5(user.email.encode('utf-8')).hexdigest() if is_authenticated(user) else '', size=size or '',
     )
 
 

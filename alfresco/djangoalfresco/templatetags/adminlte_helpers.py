@@ -4,7 +4,7 @@ from django import template
 from django.conf import settings
 from django.urls import reverse
 
-from alfresco.compat import is_authenticated
+#from .compat import is_authenticated
 
 register = template.Library()
 

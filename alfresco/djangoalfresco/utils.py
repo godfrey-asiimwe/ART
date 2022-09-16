@@ -1,7 +1,7 @@
-from .models                 import Document
+from .models import Document
 from django.contrib.auth     import logout
 from django.http             import HttpResponseRedirect
-from alfresco.authentication import get_ticket
+from .authentication import get_ticket
 
 def clear_database():
     for document in Document.objects.all():
@@ -17,7 +17,7 @@ def check_token(request):
             return None
         else:
             return password
-        
+
     else:
         return None
 
