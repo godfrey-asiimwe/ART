@@ -5,9 +5,11 @@ import mimetypes
 import requests
 from hashlib import md5
 
+from numpy import random
+
 from .content import get_content, get_content_informations, get_content_mimetype, post_node_children, \
   put_content_node
-from .count import count_sites, count_tags, count_people, count_groups
+from .count import count_sites, count_tags, count_people, count_groups, count_documents
 from .people import get_peoples, get_people_id, get_people_avatar, get_people_activities
 from .search import run_query, run_query_cmis
 from .utils import percentage, clear_database, check_token
@@ -23,6 +25,11 @@ from .forms import DocumentForm
 from .models import Document, Activity
 
 
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pyplot as plt
+import numpy as np
+
 ############################################
 # PAGES
 ############################################
@@ -37,6 +44,7 @@ def index(request):
   counter_tags = count_tags(password)
   counter_people = count_people(password)
   counter_groups = count_groups(password)
+  counter_documents =count_documents(password)
 
   percent_sites = percentage(counter_sites, 100)
   percent_tags = percentage(counter_tags, 100)
@@ -51,6 +59,16 @@ def index(request):
   peoples = peoples.json()
   peoples = peoples['list']['entries']
 
+  labels = 'Sites', 'Documents'
+  sizes = [counter_sites, counter_documents]
+  explode = (0.1, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+
+  fig1, ax1 = plt.subplots()
+  ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+          shadow=True, startangle=90)
+  ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+  plt.savefig('djangoalfresco/static/images/sale_purchase_peichart.png', dpi=100)
+
   return render(request, "adminlte/index.html",
                 {
                   'build_page_title': 'Alfresco Django',
@@ -64,8 +82,8 @@ def index(request):
                   'percent_groups': percent_groups,
                   'result_list': result_list_last_documents,
                   'peoples': peoples,
+                  'counter_documents':counter_documents,
                 })
-
 
 def profile(request):
   password = check_token(request)

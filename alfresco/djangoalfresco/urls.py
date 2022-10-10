@@ -1,4 +1,5 @@
 from django.conf.urls import include
+from django.conf.urls.static import static
 from django.template.defaulttags import url
 from django.urls import path, re_path
 from django.contrib import admin
@@ -10,7 +11,9 @@ from django.urls import re_path as url
 from django.urls import path, re_path
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+
 from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 
 from . import views
@@ -42,3 +45,5 @@ urlpatterns = [
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
 
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -34,9 +34,10 @@
             <span class="info-box-icon bg-red"><i class="ion ion-ios-pricetag-outline"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Tags</span>
-              <span class="info-box-number">{{ count_tags }}</span>
+              <span class="info-box-text">Documents</span>
+              <span class="info-box-number">{{ counter_documents }}</span>
             </div>
+
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
@@ -92,6 +93,10 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+              <h3>Sites Document Via PieChart</h3>
+              <hr/>
+              <img src="../static/images/sale_purchase_peichart.png" />
+              <br><br>
               <div class="table-responsive">
                 <table class="table no-margin">
                   <thead>
@@ -103,20 +108,20 @@
                   </tr>
                   </thead>
                   <tbody>
-					{% if result_list %}
-						{% for result in result_list %}
-					      <tr>
-					      {% if result.isFile == True %}
-					      <td><a href="/viewer/{{ result.id }}">{{ result.name }}</a></td>
-					      {% else %}
-					      <td>{{ result.name }}</td>
-					      {% endif %}
-					        <td>{{ result.author }}</td>
-					        <td>{{ result.mimeTypeName }}</td>
-					        <td>{{ result.sizeInBytes }}</td>
-		                  </tr>
-						{% endfor %}
-					{% endif %}
+                  {% if result_list %}
+                    {% for result in result_list %}
+                        <tr>
+                        {% if result.isFile == True %}
+                        <td><a href="/viewer/{{ result.id }}">{{ result.name }}</a></td>
+                        {% else %}
+                        <td>{{ result.name }}</td>
+                        {% endif %}
+                          <td>{{ result.author }}</td>
+                          <td>{{ result.mimeTypeName }}</td>
+                          <td>{{ result.sizeInBytes }}</td>
+                              </tr>
+                    {% endfor %}
+                  {% endif %}
                   </tbody>
                 </table>
               </div>
